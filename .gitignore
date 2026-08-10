@@ -43,3 +43,12 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Generated code. Reproduced by `flutter gen-l10n && dart run build_runner build`,
+# which CI runs before analysis — see .github/workflows/ci.yaml. Kept out of the
+# repo so reviews show intent rather than generator output.
+*.g.dart
+*.freezed.dart
+*.config.dart
+/lib/l10n/app_localizations*.dart
+/untranslated_messages.txt

@@ -19,11 +19,17 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        // TODO: still the `flutter create` placeholder. Changing this requires
+        // registering the new package name in the Firebase console and re-running
+        // `flutterfire configure`, because android/app/google-services.json is
+        // bound to the current value. Do it before any Play or release work.
         applicationId = "com.example.assuredgig"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+
+        // TRD T-1, decided: API 26 (Android 8.0). Below 26, notification channels
+        // and background execution limits diverge enough to cost real engineering
+        // time. Pinned explicitly rather than inheriting flutter.minSdkVersion (24)
+        // so a Flutter upgrade cannot silently move it.
+        minSdk = 26
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName

@@ -1,0 +1,11 @@
+{
+  "@@locale": "ta",
+
+  "languageEnglish": "English",
+  "languageTamil": "தமிழ்",
+  "chooseLanguage": "உங்கள் மொழியைத் தேர்ந்தெடுங்கள்",
+  "commonRetry": "மீண்டும் முயற்சிக்கவும்",
+  "commonCancel": "ரத்து செய்",
+  "homePlaceholderTitle": "அடித்தளம் தயார்",
+  "homePlaceholderBody": "திரைகள் அடுத்த கட்டத்தில் வரும். இந்த பதிப்பு அடித்தளம் சரியாக இயங்குகிறதா என்பதை மட்டும் சோதிக்கிறது."
+}

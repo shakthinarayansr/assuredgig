@@ -1,0 +1,38 @@
+{
+  "@@locale": "en",
+
+  "languageEnglish": "English",
+  "@languageEnglish": {
+    "description": "Name of the English language, always shown in English so a Partner can find it whatever locale the app is currently in."
+  },
+
+  "languageTamil": "தமிழ்",
+  "@languageTamil": {
+    "description": "Name of the Tamil language, always shown in Tamil script for the same reason."
+  },
+
+  "chooseLanguage": "Choose your language",
+  "@chooseLanguage": {
+    "description": "Heading on the first-open language picker."
+  },
+
+  "commonRetry": "Retry",
+  "@commonRetry": {
+    "description": "Generic retry action on an error state."
+  },
+
+  "commonCancel": "Cancel",
+  "@commonCancel": {
+    "description": "Generic cancel action in a dialog or sheet."
+  },
+
+  "homePlaceholderTitle": "Foundation ready",
+  "@homePlaceholderTitle": {
+    "description": "Placeholder screen title. Removed once real screens land in a later phase."
+  },
+
+  "homePlaceholderBody": "Screens arrive in a later phase. This build exists to prove the foundation compiles, routes, and switches language.",
+  "@homePlaceholderBody": {
+    "description": "Placeholder screen body. Removed once real screens land in a later phase."
+  }
+}
