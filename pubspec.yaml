@@ -63,7 +63,7 @@ dependencies:
   path: ^1.9.1
 
   # Tokens only, never shared preferences (TRD §8, NFR-05).
-  flutter_secure_storage: ^11.0.0
+  flutter_secure_storage: ^10.3.1
 
   # Attendance capture. Foreground location only; direct camera, no gallery.
   geolocator: ^14.0.3
