@@ -256,8 +256,9 @@ flutter pub get && flutter gen-l10n && dart run build_runner build
 - **No PII in logs, crash reports, or breadcrumbs** — scrub phone numbers, names, coordinates,
   tokens.
 - **Photos go to app-private storage**, never external storage or the media store.
-- **Location is collected at exactly two events**, foreground only. No background location. The
-  Play data-safety declaration must match actual behaviour.
+- **Location is collected at attendance events only**, foreground only. No background location.
+  The Play data-safety declaration must match actual behaviour — and must be re-checked against
+  the SOS decision below, because it changes the answer.
 
 ### Design system (PRD §9)
 
@@ -323,6 +324,27 @@ windows, trusted contact, recruitment source, account-deletion request. Most fol
 
 **SOS does not belong in the outbox.** A safety alert queued behind a retry backoff is not a safety
 alert. It needs its own immediate path with a visible failure state and a dialable fallback.
+
+### ⚠ Unresolved: does SOS capture location?
+
+A direct conflict between two requirements, not an ambiguity:
+
+- **CHK-08 `[D]`** — "Location requested only in the context of a shift. No tracking outside
+  check-in and check-out." TRD §2.5 restates it as "foreground location at two events only".
+- **SAFE-01 `[P]`** — SOS raises an alert "with last known location and shift context", from *any*
+  screen, including when the worker is not on a shift.
+
+The decided rule currently wins over the proposed one, so this must be resolved before SOS is
+built. Two readings:
+
+1. **Cached only.** SOS sends the location captured at check-in. Strictly honours CHK-08 and needs
+   no declaration change — but off-shift, there is no location to send, which is plausibly when it
+   matters most.
+2. **Fresh capture on tap.** A third capture event, user-initiated and foreground. This is not
+   tracking, but it *is* a third event: TRD §2.5, the CHK-08 wording, this file's conventions, and
+   the **Play data-safety declaration** all have to change to match.
+
+Principle 5 (safety outranks flow) points at option 2. It is not a decision to make silently.
 
 ### Screens
 
