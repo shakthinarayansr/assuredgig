@@ -97,6 +97,7 @@ class AuthApiProvider {
   ///
   /// Throws [ApiException] (mapped by the interceptor in `api_client.dart`).
   Future<OtpRequestResponse> requestOtp({required String phone}) async {
+    print("requestOtp: $phone");
     try {
       final response = await _dio.post<Map<String, dynamic>>(
         AuthApis.sendOtp,
