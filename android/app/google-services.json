@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "333743251974",
+    "project_id": "assuredstaff-a43ae",
+    "storage_bucket": "assuredstaff-a43ae.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:333743251974:android:9085244794fec0a83c1987",
+        "android_client_info": {
+          "package_name": "com.assuredcrew.mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQE2jEgzvy1DKn8-wIrh9WuOCtZD1QrB4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:333743251974:android:ab1c575b53351b113c1987",
+        "android_client_info": {
+          "package_name": "com.example.assuredgig"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQE2jEgzvy1DKn8-wIrh9WuOCtZD1QrB4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
