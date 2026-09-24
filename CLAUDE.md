@@ -22,6 +22,26 @@ file records a v2 override.
 This file is the *standing context and decisions*. Deviations recorded here are deliberate
 amendments, not drift. Add new ones here rather than silently diverging.
 
+### `ai_tools/` — the working knowledge
+
+This file holds *settled* context. `ai_tools/` holds everything still in motion, and it is
+where day-to-day findings go:
+
+| Folder | Holds |
+|---|---|
+| `ai_tools/proposals/` | Suggestions raised during dev, awaiting a decision |
+| `ai_tools/memory/` | Approved decisions and the reasoning behind them |
+| `ai_tools/reasoning/` | What testing against real data proved wrong, and why |
+| `ai_tools/skills/` | Approved repeatable procedures (symlinked into `.claude/skills/`) |
+| `ai_tools/archives/` | Superseded and rejected entries, kept whole |
+
+Approved proposals move to `memory/`; rejected ones to `archives/`. Nothing is deleted.
+`./ai_tools/status.sh` lists everything by status. See `ai_tools/README.md` for the flow.
+
+**Before touching the API layer, read `ai_tools/reasoning/`** — it is the record of how this
+specific backend actually behaves, which is not what its curls suggest. A decision that hardens
+into a rule belongs here in CLAUDE.md; the finding that produced it belongs there.
+
 ---
 
 ## 1. What this repo is

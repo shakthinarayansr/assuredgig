@@ -49,6 +49,12 @@ abstract class LoginState with _$LoginState {
 
     /// Set exactly when [status] is [LoginStatus.authenticated].
     AuthenticatedDestination? destination,
+
+    /// Wrong codes entered in a row. Drives the "we'll do it by phone" screen
+    /// after [maxCodeAttempts] — a **wording** decision, not an eligibility
+    /// one: the server still decides whether any given code is valid, and it
+    /// keeps its own rate limit regardless of this counter (TRD §2.1).
+    @Default(0) int wrongCodeAttempts,
   }) = _LoginState;
 
   const LoginState._();
@@ -82,4 +88,17 @@ abstract class LoginState with _$LoginState {
   /// AUTH-07: rejection is terminal. The screen shows no retry, no appeal and
   /// no "contact support" affordance for this one.
   bool get isTerminal => failure == AuthFailure.underAge;
+
+  /// After this many wrong codes, stop asking the Partner to try harder.
+  static const int maxCodeAttempts = 3;
+
+  /// Time to offer a way out rather than another empty field.
+  ///
+  /// Either the Partner has missed three times, or the server has started
+  /// refusing — both mean the code path is not working for this person right
+  /// now, and a fourth identical screen is not help.
+  bool get needsHelp =>
+      step == LoginStep.code &&
+      (wrongCodeAttempts >= maxCodeAttempts ||
+          failure == AuthFailure.tooManyAttempts);
 }

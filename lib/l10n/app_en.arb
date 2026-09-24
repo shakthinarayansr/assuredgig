@@ -1,38 +1,221 @@
 {
   "@@locale": "en",
-
   "languageEnglish": "English",
   "@languageEnglish": {
     "description": "Name of the English language, always shown in English so a Partner can find it whatever locale the app is currently in."
   },
-
   "languageTamil": "தமிழ்",
   "@languageTamil": {
     "description": "Name of the Tamil language, always shown in Tamil script for the same reason."
   },
-
   "chooseLanguage": "Choose your language",
   "@chooseLanguage": {
     "description": "Heading on the first-open language picker."
   },
-
   "commonRetry": "Retry",
   "@commonRetry": {
     "description": "Generic retry action on an error state."
   },
-
   "commonCancel": "Cancel",
   "@commonCancel": {
     "description": "Generic cancel action in a dialog or sheet."
   },
-
   "homePlaceholderTitle": "Foundation ready",
   "@homePlaceholderTitle": {
     "description": "Placeholder screen title. Removed once real screens land in a later phase."
   },
-
   "homePlaceholderBody": "Screens arrive in a later phase. This build exists to prove the foundation compiles, routes, and switches language.",
   "@homePlaceholderBody": {
     "description": "Placeholder screen body. Removed once real screens land in a later phase."
+  },
+  "languageChangeableLater": "Changeable later in settings",
+  "@languageChangeableLater": {
+    "description": "Reassurance under the two language choices on first open, so the choice does not feel final."
+  },
+  "stepOf": "Step {current} / {total}",
+  "@stepOf": {
+    "description": "Progress eyebrow above the bar. Mono and uppercase in English; Tamil renders in its own face.",
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "commonBack": "Back",
+  "@commonBack": {
+    "description": "Accessibility label for the back arrow in the onboarding header."
+  },
+  "noticeSlowLine": "Slow line — this may take a minute",
+  "@noticeSlowLine": {
+    "description": "Dark notice bar shown when a request is taking unusually long. Not an error: the request is still running."
+  },
+  "phoneTitle": "Your phone number",
+  "@phoneTitle": {
+    "description": "Heading of the phone number step."
+  },
+  "phoneSubtitle": "We send a {count}-digit code by SMS.",
+  "@phoneSubtitle": {
+    "description": "Explains what happens next. The digit count comes from the server, never hardcoded.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "phoneHintEmpty": "{count} digits, no zero in front",
+  "@phoneHintEmpty": {
+    "description": "Hint under the empty phone field. Names the shape expected.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "phoneHintProgress": "{typed} of {total} digits",
+  "@phoneHintProgress": {
+    "description": "Hint under a partly typed phone number, and the disabled button's label.",
+    "placeholders": {
+      "typed": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "phoneErrorTooShort": "{remaining} more digits — a mobile number has {total}.",
+  "@phoneErrorTooShort": {
+    "description": "Shown when the Partner submits too few digits. Names the action, not the fault.",
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "phoneCtaEmpty": "Type your number",
+  "@phoneCtaEmpty": {
+    "description": "Disabled primary action before any digit is typed."
+  },
+  "phoneCtaReady": "Send me the code",
+  "@phoneCtaReady": {
+    "description": "Primary action once the number is complete."
+  },
+  "otpTitle": "Enter the code",
+  "@otpTitle": {
+    "description": "Heading of the code entry step."
+  },
+  "otpSentTo": "Sent to {phone}",
+  "@otpSentTo": {
+    "description": "Says which number the code went to, so a mistyped number is caught here.",
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "otpResendIn": "New code in {seconds}s",
+  "@otpResendIn": {
+    "description": "Countdown while resending is on cooldown. Seconds only; it is never more than a minute or two.",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "otpResendNow": "Tap to send a new code",
+  "@otpResendNow": {
+    "description": "Shown once the resend cooldown has elapsed."
+  },
+  "otpResendAction": "Send a new code",
+  "@otpResendAction": {
+    "description": "Button that requests a fresh code."
+  },
+  "otpCtaIncomplete": "Type {count} digits",
+  "@otpCtaIncomplete": {
+    "description": "Disabled primary action until every box is filled.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "otpCtaReady": "Check the code",
+  "@otpCtaReady": {
+    "description": "Primary action once the code is complete."
+  },
+  "otpCtaWaiting": "Please wait",
+  "@otpCtaWaiting": {
+    "description": "Primary action while the code is being verified."
+  },
+  "otpChecking": "Checking the code",
+  "@otpChecking": {
+    "description": "Status line beside the spinner while verifying."
+  },
+  "otpChangeNumber": "Change my number",
+  "@otpChangeNumber": {
+    "description": "Returns to the phone step with the number kept for correction."
+  },
+  "otpStuckTitle": "The code isn't working. We'll do it by phone.",
+  "@otpStuckTitle": {
+    "description": "Heading once the code has failed repeatedly. Offers a way out rather than another empty field."
+  },
+  "otpStuckBody": "Call us and read out your number. We finish this step for you. The call is free.",
+  "@otpStuckBody": {
+    "description": "Explains the phone route out of a stuck code."
+  },
+  "otpStuckFooter": "Your language and number are saved. You won't start over.",
+  "@otpStuckFooter": {
+    "description": "Reassurance at the foot of the stuck screen: nothing entered so far is lost."
+  },
+  "errorNetwork": "Can't reach us. Check your internet, then tap again.",
+  "@errorNetwork": {
+    "description": "Shown when the request never reached the server. Names the action, not the fault."
+  },
+  "errorInvalidPhone": "Check the number — that doesn't look like a mobile number.",
+  "@errorInvalidPhone": {
+    "description": "Shown when the server rejects the phone number's shape."
+  },
+  "errorInvalidOtp": "Doesn't match. Check the SMS and fix the wrong digits.",
+  "@errorInvalidOtp": {
+    "description": "Shown for a wrong code. The server cannot tell a wrong code from an expired one, so this covers both."
+  },
+  "errorOtpExpired": "That code has expired. Ask for a new one.",
+  "@errorOtpExpired": {
+    "description": "Shown when the server reports the code's window has closed."
+  },
+  "errorTooManyAttempts": "Too many tries. Wait a moment, then ask for a new code.",
+  "@errorTooManyAttempts": {
+    "description": "Shown when the server rate-limits the number."
+  },
+  "errorUnderAge": "You need to be 18 or older to work through {brand}.",
+  "@errorUnderAge": {
+    "description": "AUTH-07 / LEG-01. Terminal: no retry, no appeal, no support route. Shown once and the flow stops.",
+    "placeholders": {
+      "brand": {
+        "type": "String"
+      }
+    }
+  },
+  "errorAccountUnavailable": "This number can't be used right now.",
+  "@errorAccountUnavailable": {
+    "description": "Shown when the account is blocked or has a deletion request in flight (AUTH-09)."
+  },
+  "errorSessionExpired": "Please sign in again.",
+  "@errorSessionExpired": {
+    "description": "Shown when the server refuses the stored token."
+  },
+  "errorUnknown": "Something went wrong. Try again.",
+  "@errorUnknown": {
+    "description": "Fallback for a failure the app cannot classify. Never shows the server's own message."
+  },
+  "keypadDelete": "Delete",
+  "@keypadDelete": {
+    "description": "Accessibility label for the backspace key on the number pad."
   }
 }

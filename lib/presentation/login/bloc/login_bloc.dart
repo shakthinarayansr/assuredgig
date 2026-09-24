@@ -105,6 +105,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           failure: error.failure,
           code: wasCodeRejected ? '' : state.code,
           resendAvailableAt: _cooldownFrom(error) ?? state.resendAvailableAt,
+          wrongCodeAttempts: wasCodeRejected
+              ? state.wrongCodeAttempts + 1
+              : state.wrongCodeAttempts,
         ),
       );
     } catch (_) {
@@ -138,6 +141,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         code: '',
         failure: null,
         resendAvailableAt: null,
+        wrongCodeAttempts: 0,
       ),
     );
   }
@@ -166,6 +170,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           code: '',
           codeLength: challenge.codeLength,
           resendAvailableAt: DateTime.now().add(challenge.resendAfter),
+          // A new code is a fresh start: the previous one's misses say nothing
+          // about this one, and leaving the count would strand a Partner on
+          // the help screen forever.
+          wrongCodeAttempts: 0,
         ),
       );
     } on AuthException catch (error) {
