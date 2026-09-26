@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/theme/app_palette.dart';
 import '../../../core/theme/app_tokens.dart';
 
 /// How much weight a pill action carries.
@@ -17,8 +18,8 @@ enum PillVariant {
 /// The canvas's one action shape: a 60 dp pill, full width, radius 999.
 ///
 /// Disabled is a **fill change**, not an opacity change — a greyed-out control
-/// on a cheap LCD in sunlight is often just invisible, whereas `#E4E6EA` on
-/// `#8A9099` still reads as a control that is not ready yet. The label changes
+/// on a cheap LCD in sunlight is often just invisible, whereas muted text on
+/// the divider fill still reads as a control that is not ready yet. The label changes
 /// with it ("5 of 10 digits"), so the button says *why* rather than going quiet.
 class PillButton extends StatelessWidget {
   const PillButton({
@@ -39,24 +40,17 @@ class PillButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final enabled = onPressed != null;
+    final p = AppPalette.of(context);
 
     final (
       Color background,
       Color foreground,
       Color? border,
     ) = switch (variant) {
-      PillVariant.primary when enabled => (
-        AppTokens.accent,
-        Colors.white,
-        null,
-      ),
-      PillVariant.primary => (AppTokens.hairline, AppTokens.inkFaint, null),
-      PillVariant.secondary => (
-        AppTokens.surface,
-        AppTokens.ink,
-        AppTokens.hairlineStrong,
-      ),
-      PillVariant.ghost => (Colors.transparent, AppTokens.inkMuted, null),
+      PillVariant.primary when enabled => (p.primary, p.onPrimary, null),
+      PillVariant.primary => (p.divider, p.textMuted, null),
+      PillVariant.secondary => (p.surface, p.text, p.divider),
+      PillVariant.ghost => (Colors.transparent, p.textMuted, null),
     };
 
     return Material(
@@ -70,6 +64,11 @@ class PillButton extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onPressed,
+        // The palette's own pressed shade, rather than a translucent wash
+        // that reads differently on every panel.
+        highlightColor: variant == PillVariant.primary
+            ? p.primaryPressed
+            : null,
         child: Container(
           // Minimum, not fixed: a Tamil label wraps to two lines rather than
           // being clipped (NFR-04).

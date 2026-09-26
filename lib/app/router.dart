@@ -5,6 +5,7 @@ import '../domain/usecases/verify_otp.dart';
 import '../presentation/home/home_screen.dart';
 import '../presentation/login/language_screen.dart';
 import '../presentation/login/login_screen.dart';
+import '../presentation/profile/profile_screen.dart';
 import 'di.dart';
 
 /// Route names, referenced rather than typed as literals at call sites so a
@@ -17,6 +18,9 @@ abstract final class Routes {
 
   /// S-02 and S-03 — number entry and code entry, under one bloc.
   static const String login = '/login';
+
+  /// S-21 — profile home, with appearance and language (S-29).
+  static const String profile = '/profile';
 }
 
 /// The router.
@@ -58,6 +62,10 @@ GoRouter buildRouter() {
       GoRoute(
         path: Routes.home,
         builder: (context, state) => const HomeScreen(),
+      ),
+      GoRoute(
+        path: Routes.profile,
+        builder: (context, state) => const ProfileScreen(),
       ),
     ],
   );

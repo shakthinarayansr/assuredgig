@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
 import '../core/l10n/locale_controller.dart';
+import '../core/theme/theme_controller.dart';
 import '../sources/api/api_client.dart';
 import '../sources/secure/token_store.dart';
 import 'di.config.dart';
@@ -11,7 +12,7 @@ import 'di.config.dart';
 final GetIt getIt = GetIt.instance;
 
 /// Builds the object graph. Awaited in `main` before `runApp` because some
-/// registrations (the restored locale) must be resolved before first render.
+/// registrations (the restored locale and theme) must be resolved before first render.
 @InjectableInit(
   initializerName: 'init',
   preferRelativeImports: true,
@@ -26,6 +27,12 @@ abstract class AppModule {
   @preResolve
   @singleton
   Future<LocaleController> get localeController => LocaleController.restore();
+
+  /// Pre-resolved for the same reason as the locale: the first frame must
+  /// already be in the Partner's chosen theme.
+  @preResolve
+  @singleton
+  Future<ThemeController> get themeController => ThemeController.restore();
 
   /// One Dio for the whole app — a second would mean a second connection pool
   /// and a second set of interceptors to drift out of sync.

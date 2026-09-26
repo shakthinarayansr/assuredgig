@@ -1,3 +1,5 @@
+import 'package:assuredgig/core/theme/app_palette.dart';
+import 'package:assuredgig/core/theme/app_theme.dart';
 import 'package:assuredgig/core/theme/app_tokens.dart';
 import 'package:assuredgig/domain/entities/auth_failure.dart';
 import 'package:assuredgig/domain/usecases/request_otp.dart';
@@ -34,13 +36,19 @@ class _FakeVerify implements VerifyOtp {
   }
 }
 
-Widget _app(Locale locale, {void Function(AuthenticatedDestination)? onAuth}) =>
-    MaterialApp(
-      locale: locale,
-      supportedLocales: AppL10n.supportedLocales,
-      localizationsDelegates: AppL10n.localizationsDelegates,
-      home: LoginScreen(onAuthenticated: onAuth ?? (_) {}),
-    );
+Widget _app(
+  Locale locale, {
+  void Function(AuthenticatedDestination)? onAuth,
+  ThemeMode themeMode = ThemeMode.light,
+}) => MaterialApp(
+  theme: AppTheme.light(),
+  darkTheme: AppTheme.dark(),
+  themeMode: themeMode,
+  locale: locale,
+  supportedLocales: AppL10n.supportedLocales,
+  localizationsDelegates: AppL10n.localizationsDelegates,
+  home: LoginScreen(onAuthenticated: onAuth ?? (_) {}),
+);
 
 Future<void> _tapDigits(WidgetTester tester, String digits) async {
   for (final d in digits.split('')) {
@@ -156,5 +164,31 @@ void main() {
       tester.getSize(find.widgetWithText(InkWell, 'Send me the code')).height,
       greaterThanOrEqualTo(AppTokens.targetCta),
     );
+  });
+
+  testWidgets('follows dark mode: dark ground, palette primary on the CTA', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      _app(const Locale('en'), themeMode: ThemeMode.dark),
+    );
+    final scaffold = tester.widget<Scaffold>(find.byType(Scaffold));
+    expect(scaffold.backgroundColor, isNull, reason: 'theme supplies it');
+    expect(
+      Theme.of(tester.element(find.byType(Scaffold))).scaffoldBackgroundColor,
+      AppPalette.dark.bg,
+    );
+
+    await _tapDigits(tester, '9003560015');
+    final cta = tester.widget<Material>(
+      find
+          .ancestor(
+            of: find.text('Send me the code'),
+            matching: find.byType(Material),
+          )
+          .first,
+    );
+    expect(cta.color, AppPalette.dark.primary);
+    expect(tester.takeException(), isNull);
   });
 }

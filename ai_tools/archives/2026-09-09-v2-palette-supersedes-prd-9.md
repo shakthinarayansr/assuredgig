@@ -1,6 +1,7 @@
 ---
 title: Decide whether the v2 canvas palette replaces PRD §9
-status: open
+status: superseded
+superseded_by: [../memory/2026-09-26-app-palette-supersedes-prd-9.md]
 date: 2026-09-09
 owner: product / design
 tags: [design-system, blocker, theme]
@@ -51,7 +52,11 @@ introduces eleven. One of the two documents is now wrong.
 
 ## Decision
 
-<!-- pending -->
+**Neither option, 2026-09-26.** A third palette — the AssuredGig app palette
+(`assuredgig_palette.json`, generated 2026-09-26) — replaces both PRD §9 and the
+canvas colours. It is closer to option 1 in spirit (one blue accent, hairlines,
+near-white ground) but with different values and a full dark theme. Recorded in
+`../memory/2026-09-26-app-palette-supersedes-prd-9.md`.
 
 ## Note on fonts
 

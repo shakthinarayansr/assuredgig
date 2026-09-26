@@ -1,60 +1,20 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/painting.dart';
 
-/// The tokens from the **Onboarding v2 restyle** canvas.
+/// Shape, target and type tokens from the **Onboarding v2 restyle** canvas.
 ///
-/// ⚠ **These conflict with `AppTheme` and with PRD §9.** PRD §9 specifies an
-/// amber-forward palette (ink `#0E2F2B`, teal, mint, amber, ice) with Poppins
-/// and Anek. The v2 canvas replaces that with a single blue accent on a
-/// near-white ground. Both cannot be the design system.
-///
-/// This file exists so the login flow can match the canvas exactly without
-/// silently rewriting the global theme underneath every other screen. Whichever
-/// way that conflict resolves, it resolves in one place: promote these into
-/// `AppTheme` and delete this file, or delete these and restyle the canvas.
-/// See `ai_tools/proposals/2026-09-09-v2-palette-supersedes-prd-9.md`.
+/// **No colour lives here.** Colour comes from `AppPalette` (26 Sep 2026 —
+/// see `ai_tools/memory/2026-09-26-app-palette-supersedes-prd-9.md`), read
+/// through `AppPalette.of(context)` so it follows the Partner's light / dark
+/// choice. The text styles below therefore carry no colour either: a call site
+/// adds one with `copyWith(color: palette.text)` and friends.
 ///
 /// Rules the canvas states outright and this file encodes:
 ///   * depth is a 1 px hairline, never a shadow — `elevation: none in-app`;
 ///   * selection is a **fill**, not a heavier border, because fill survives a
 ///     scratched screen in sunlight;
-///   * form screens stay near-white; only language and the finish go dark.
+///   * the language screen is dark whatever the theme — it is a moment, not a
+///     form.
 abstract final class AppTokens {
-  // ---- Colour -------------------------------------------------------------
-
-  static const Color accent = Color(0xFF0B6BFF);
-  static const Color accentPress = Color(0xFF0752C4);
-
-  /// Load-bearing text. 6.4:1 and up on [ground].
-  static const Color ink = Color(0xFF0D0F12);
-  static const Color inkMuted = Color(0xFF5B6167);
-
-  /// **Label-only, 11–14 px.** 3.5:1 — above the 3:1 floor for non-essential
-  /// text and below the 4.5:1 one for everything else. Never use it for a
-  /// sentence a Partner has to read to act.
-  static const Color inkFaint = Color(0xFF8A9099);
-
-  static const Color ground = Color(0xFFF7F8FA);
-  static const Color surface = Color(0xFFFFFFFF);
-  static const Color sunken = Color(0xFFEDEFF3);
-  static const Color hairline = Color(0xFFE4E6EA);
-  static const Color hairlineStrong = Color(0xFFD6DAE0);
-
-  static const Color error = Color(0xFFE5484D);
-
-  /// Error *text*. The lighter [error] is for rules and borders only.
-  static const Color errorInk = Color(0xFFC4292E);
-
-  /// Only ever on ink — the notice bar's icon.
-  static const Color notice = Color(0xFFFFC53D);
-
-  // Dark bookends: the language screen and the finish screen.
-  static const Color darkGround = Color(0xFF0D0F12);
-  static const Color darkSurface = Color(0xFF15181D);
-  static const Color darkHairline = Color(0xFF2A2F37);
-  static const Color darkInk = Color(0xFFFFFFFF);
-  static const Color darkInkMuted = Color(0xFF9AA1AB);
-  static const Color darkInkFaint = Color(0xFF6E757E);
-
   // ---- Shape --------------------------------------------------------------
 
   static const double radiusPill = 999;
@@ -108,7 +68,6 @@ abstract final class AppTokens {
     height: 1.1,
     fontWeight: FontWeight.w600,
     letterSpacing: -1.12,
-    color: ink,
   );
 
   /// 29 · w600 · -3% — the question at the top of a form screen.
@@ -118,7 +77,6 @@ abstract final class AppTokens {
     height: 1.15,
     fontWeight: FontWeight.w600,
     letterSpacing: -0.87,
-    color: ink,
   );
 
   /// 34 · w600 — the language screen, which is a moment rather than a form.
@@ -128,7 +86,6 @@ abstract final class AppTokens {
     height: 1.12,
     fontWeight: FontWeight.w600,
     letterSpacing: -1.02,
-    color: darkInk,
   );
 
   /// 17 · w600 — every pill action.
@@ -146,7 +103,6 @@ abstract final class AppTokens {
     height: 1.25,
     fontWeight: FontWeight.w500,
     letterSpacing: -0.17,
-    color: ink,
   );
 
   /// 16 · w400 — body copy. The floor for anything a Partner reads to act.
@@ -155,7 +111,6 @@ abstract final class AppTokens {
     fontSize: 16,
     height: 1.5,
     fontWeight: FontWeight.w400,
-    color: inkMuted,
   );
 
   /// 14 · w400/w500 — the hint under a field.
@@ -164,7 +119,6 @@ abstract final class AppTokens {
     fontSize: 14,
     height: 1.4,
     fontWeight: FontWeight.w400,
-    color: inkFaint,
   );
 
   /// 11 · w500 · +14% · uppercase mono — step counters and field names.
@@ -174,7 +128,6 @@ abstract final class AppTokens {
     height: 1,
     fontWeight: FontWeight.w500,
     letterSpacing: 1.54,
-    color: inkFaint,
   );
 
   /// 30 · w500 — the digits being typed on the phone screen.
@@ -184,7 +137,6 @@ abstract final class AppTokens {
     height: 1,
     fontWeight: FontWeight.w500,
     letterSpacing: 1.2,
-    color: ink,
   );
 
   /// 25 · w500 — a key on the number pad.
@@ -193,7 +145,6 @@ abstract final class AppTokens {
     fontSize: 25,
     height: 1,
     fontWeight: FontWeight.w500,
-    color: ink,
   );
 
   /// 28 · w500 — one digit in an OTP box.
@@ -202,6 +153,5 @@ abstract final class AppTokens {
     fontSize: 28,
     height: 1,
     fontWeight: FontWeight.w500,
-    color: ink,
   );
 }

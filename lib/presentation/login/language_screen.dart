@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../app/di.dart';
 import '../../core/constants/brand.dart';
 import '../../core/l10n/locale_controller.dart';
+import '../../core/theme/app_palette.dart';
+import '../../core/theme/app_theme.dart';
 import '../../core/theme/app_tokens.dart';
 import '../../l10n/app_localizations.dart';
 
@@ -10,6 +13,8 @@ import '../../l10n/app_localizations.dart';
 ///
 /// Dark, because it is a moment rather than a form: there is nothing to fill
 /// in, so the sunlight argument for a near-white field does not apply here.
+/// It is dark **whatever the theme** — the Partner has not chosen one yet —
+/// so it reads [AppPalette.dark] directly rather than from context.
 ///
 /// **Each language is written in its own script, always.** A Partner who reads
 /// only Tamil cannot be asked to find "Tamil" spelled in Latin, and the app has
@@ -17,6 +22,8 @@ import '../../l10n/app_localizations.dart';
 /// current locale entirely. Everything else on the screen follows the locale.
 class LanguageScreen extends StatelessWidget {
   const LanguageScreen({required this.onSelected, super.key});
+
+  static const AppPalette _p = AppPalette.dark;
 
   /// Called after the locale is set, so the caller owns where the flow goes
   /// next rather than this screen knowing about routes.
@@ -33,93 +40,95 @@ class LanguageScreen extends StatelessWidget {
       onSelected();
     }
 
-    return Scaffold(
-      backgroundColor: AppTokens.darkGround,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(26, 56, 26, 30),
-          child: ConstrainedBox(
-            // Fills the viewport so the wordmark can sit at the top and the
-            // choices near the bottom, but scrolls rather than overflowing when
-            // the text scale is turned up.
-            constraints: BoxConstraints(
-              minHeight:
-                  MediaQuery.sizeOf(context).height -
-                  MediaQuery.paddingOf(context).vertical -
-                  86,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Container(
-                      width: 26,
-                      height: 26,
-                      decoration: BoxDecoration(
-                        color: AppTokens.accent,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: const Icon(
-                        Icons.verified_user,
-                        size: 17,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(width: 9),
-                    const Text(
-                      Brand.name,
-                      style: TextStyle(
-                        fontFamily: AppTokens.latinFamily,
-                        fontSize: 16,
-                        height: 1,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: -0.16,
-                        color: AppTokens.darkInk,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 56),
-                Text(l10n.chooseLanguage, style: AppTokens.display),
-                const SizedBox(height: 32),
-                _LanguageChoice(
-                  label: l10n.languageTamil,
-                  script: _Script.tamil,
-                  selected: current == 'ta',
-                  onTap: () => choose(const Locale('ta')),
-                ),
-                const SizedBox(height: 12),
-                _LanguageChoice(
-                  label: l10n.languageEnglish,
-                  script: _Script.latin,
-                  selected: current == 'en',
-                  onTap: () => choose(const Locale('en')),
-                ),
-                const SizedBox(height: 26),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    const Icon(
-                      Icons.lock_outline,
-                      size: 16,
-                      color: AppTokens.darkInkFaint,
-                    ),
-                    const SizedBox(width: 7),
-                    Expanded(
-                      child: Text(
-                        l10n.languageChangeableLater,
-                        style: const TextStyle(
-                          fontFamily: AppTokens.latinFamily,
-                          fontSize: 13,
-                          height: 1.55,
-                          color: AppTokens.darkInkFaint,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: AppTheme.systemOverlay(_p, Brightness.dark),
+      child: Scaffold(
+        backgroundColor: _p.bg,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(26, 56, 26, 30),
+            child: ConstrainedBox(
+              // Fills the viewport so the wordmark can sit at the top and the
+              // choices near the bottom, but scrolls rather than overflowing when
+              // the text scale is turned up.
+              constraints: BoxConstraints(
+                minHeight:
+                    MediaQuery.sizeOf(context).height -
+                    MediaQuery.paddingOf(context).vertical -
+                    86,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        width: 26,
+                        height: 26,
+                        decoration: BoxDecoration(
+                          color: _p.primary,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(
+                          Icons.verified_user,
+                          size: 17,
+                          color: _p.onPrimary,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      const SizedBox(width: 9),
+                      Text(
+                        Brand.name,
+                        style: TextStyle(
+                          fontFamily: AppTokens.latinFamily,
+                          fontSize: 16,
+                          height: 1,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: -0.16,
+                          color: _p.text,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 56),
+                  Text(
+                    l10n.chooseLanguage,
+                    style: AppTokens.display.copyWith(color: _p.text),
+                  ),
+                  const SizedBox(height: 32),
+                  _LanguageChoice(
+                    label: l10n.languageTamil,
+                    script: _Script.tamil,
+                    selected: current == 'ta',
+                    onTap: () => choose(const Locale('ta')),
+                  ),
+                  const SizedBox(height: 12),
+                  _LanguageChoice(
+                    label: l10n.languageEnglish,
+                    script: _Script.latin,
+                    selected: current == 'en',
+                    onTap: () => choose(const Locale('en')),
+                  ),
+                  const SizedBox(height: 26),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Icon(Icons.lock_outline, size: 16, color: _p.textMuted),
+                      const SizedBox(width: 7),
+                      Expanded(
+                        child: Text(
+                          l10n.languageChangeableLater,
+                          style: TextStyle(
+                            fontFamily: AppTokens.latinFamily,
+                            fontSize: 13,
+                            height: 1.55,
+                            color: _p.textMuted,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -134,6 +143,8 @@ enum _Script { latin, tamil }
 ///
 /// The chosen one is a white fill rather than a heavier border: fill survives a
 /// scratched screen in direct sun, which is the condition this app is read in.
+/// On that white card the colours switch to the light palette, so both states
+/// keep their tested 4.5:1 pairs.
 class _LanguageChoice extends StatelessWidget {
   const _LanguageChoice({
     required this.label,
@@ -149,13 +160,13 @@ class _LanguageChoice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final p = selected ? AppPalette.light : AppPalette.dark;
+
     return Material(
-      color: selected ? Colors.white : AppTokens.darkSurface,
+      color: p.surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppTokens.radiusLanguage),
-        side: selected
-            ? BorderSide.none
-            : const BorderSide(color: AppTokens.darkHairline),
+        side: selected ? BorderSide.none : BorderSide(color: p.divider),
       ),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -180,7 +191,7 @@ class _LanguageChoice extends StatelessWidget {
                       height: script == _Script.tamil ? 1.4 : 1.2,
                       fontWeight: FontWeight.w600,
                       letterSpacing: script == _Script.tamil ? 0 : -0.6,
-                      color: selected ? AppTokens.ink : AppTokens.darkInk,
+                      color: p.text,
                     ),
                   ),
                 ),
@@ -188,7 +199,7 @@ class _LanguageChoice extends StatelessWidget {
                 Icon(
                   selected ? Icons.check_circle : Icons.arrow_outward,
                   size: 26,
-                  color: AppTokens.accent,
+                  color: p.primary,
                 ),
               ],
             ),

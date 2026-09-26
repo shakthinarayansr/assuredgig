@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/theme/app_palette.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../l10n/app_localizations.dart';
 import '../bloc/login_bloc.dart';
@@ -26,6 +27,7 @@ class OtpStuckView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppL10n.of(context);
+    final p = AppPalette.of(context);
     final canResend = state.canResendAt(DateTime.now());
 
     return SingleChildScrollView(
@@ -38,22 +40,25 @@ class OtpStuckView extends StatelessWidget {
             height: 44,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: AppTokens.darkGround,
+              color: p.sky,
               borderRadius: BorderRadius.circular(AppTokens.radiusField),
             ),
-            child: const Icon(
-              Icons.support_agent,
-              size: 24,
-              color: AppTokens.notice,
-            ),
+            child: Icon(Icons.support_agent, size: 24, color: p.primary),
           ),
           const SizedBox(height: 16),
           Text(
             l10n.otpStuckTitle,
-            style: AppTokens.question.copyWith(fontSize: 26, height: 1.2),
+            style: AppTokens.question.copyWith(
+              fontSize: 26,
+              height: 1.2,
+              color: p.text,
+            ),
           ),
           const SizedBox(height: 10),
-          Text(l10n.otpStuckBody, style: AppTokens.body.copyWith(height: 1.55)),
+          Text(
+            l10n.otpStuckBody,
+            style: AppTokens.body.copyWith(height: 1.55, color: p.textMuted),
+          ),
           const SizedBox(height: 22),
           PillButton(
             label: l10n.otpResendAction,
@@ -71,7 +76,7 @@ class OtpStuckView extends StatelessWidget {
           const SizedBox(height: 26),
           Text(
             l10n.otpStuckFooter,
-            style: AppTokens.hint.copyWith(height: 1.5),
+            style: AppTokens.hint.copyWith(height: 1.5, color: p.textMuted),
           ),
         ],
       ),

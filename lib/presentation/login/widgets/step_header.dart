@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/theme/app_palette.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../l10n/app_localizations.dart';
 
@@ -26,6 +27,7 @@ class StepHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppL10n.of(context);
+    final p = AppPalette.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -43,7 +45,7 @@ class StepHeader extends StatelessWidget {
                     : IconButton(
                         onPressed: onBack,
                         icon: const Icon(Icons.arrow_back, size: 24),
-                        color: AppTokens.ink,
+                        color: p.text,
                         tooltip: l10n.commonBack,
                       ),
               ),
@@ -51,7 +53,7 @@ class StepHeader extends StatelessWidget {
               Flexible(
                 child: Text(
                   l10n.stepOf(step, totalSteps),
-                  style: AppTokens.eyebrow,
+                  style: AppTokens.eyebrow.copyWith(color: p.textMuted),
                 ),
               ),
             ],
@@ -63,11 +65,11 @@ class StepHeader extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 flex: step,
-                child: const ColoredBox(color: AppTokens.accent),
+                child: ColoredBox(color: p.primary),
               ),
               Expanded(
                 flex: totalSteps - step,
-                child: const ColoredBox(color: AppTokens.hairline),
+                child: ColoredBox(color: p.divider),
               ),
             ],
           ),

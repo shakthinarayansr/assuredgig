@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-/// The design system from PRD §9, and the layout rules that keep it usable.
+import 'app_palette.dart';
+
+/// The app's light and dark themes, built from [AppPalette].
+///
+/// This replaces the PRD §9 amber-forward palette — see
+/// `ai_tools/memory/2026-09-26-app-palette-supersedes-prd-9.md`. Colours live
+/// in `app_palette.dart`; this file only maps them onto Material.
 ///
 /// Two constraints are encoded here rather than left to each screen, because
 /// both are the kind that gets forgotten exactly once and then ships:
@@ -13,68 +20,96 @@ abstract final class AppTheme {
   /// Minimum interactive target, per NFR-06.
   static const double minTapTarget = 48;
 
-  // PRD §9. These five are the whole palette; do not introduce a sixth without
-  // changing that document first.
-  static const Color ink = Color(0xFF0E2F2B);
-  static const Color teal = Color(0xFF0F6E56);
-  static const Color mint = Color(0xFF1D9E75);
-  static const Color amber = Color(0xFFEF9F27);
-  static const Color ice = Color(0xFFCFE0DB);
+  static ThemeData light() => _build(Brightness.light, AppPalette.light);
 
-  static ThemeData light() => _build(Brightness.light);
+  static ThemeData dark() => _build(Brightness.dark, AppPalette.dark);
 
-  static ThemeData dark() => _build(Brightness.dark);
+  static ColorScheme _colors(Brightness brightness, AppPalette p) =>
+      ColorScheme(
+        brightness: brightness,
+        primary: p.primary,
+        onPrimary: p.onPrimary,
+        primaryContainer: p.sky,
+        onPrimaryContainer: p.text,
+        secondary: p.primaryPressed,
+        onSecondary: p.onPrimary,
+        secondaryContainer: p.surfaceAlt,
+        onSecondaryContainer: p.text,
+        tertiary: p.success,
+        onTertiary: p.onPrimary,
+        tertiaryContainer: p.successSurface,
+        onTertiaryContainer: p.text,
+        // Error is `danger`, never `sos` — the red reserved for safety must not
+        // turn up on a mistyped field.
+        error: p.danger,
+        onError: brightness == Brightness.light ? Colors.white : p.bg,
+        errorContainer: p.dangerSurface,
+        onErrorContainer: p.text,
+        surface: p.surface,
+        onSurface: p.text,
+        surfaceContainerLowest: p.bg,
+        surfaceContainerLow: p.surfaceAlt,
+        surfaceContainer: p.surfaceAlt,
+        surfaceContainerHigh: p.sky,
+        surfaceContainerHighest: p.sky,
+        onSurfaceVariant: p.textMuted,
+        outline: p.divider,
+        outlineVariant: p.divider,
+        scrim: p.scrim,
+        shadow: Colors.transparent,
+      );
 
-  /// AssuredGig is **amber-forward** (PRD §9): amber carries pay figures and
-  /// primary actions, teal recedes to structure. That is the opposite weighting
-  /// to the company-facing brand, so do not "fix" it by promoting teal.
-  static ColorScheme _colors(Brightness brightness) {
-    final isDark = brightness == Brightness.dark;
-    return ColorScheme(
-      brightness: brightness,
-      primary: amber,
-      onPrimary: ink,
-      primaryContainer: isDark
-          ? const Color(0xFF6B4610)
-          : const Color(0xFFFDEBCC),
-      onPrimaryContainer: isDark ? const Color(0xFFFDEBCC) : ink,
-      secondary: teal,
-      onSecondary: Colors.white,
-      secondaryContainer: isDark ? const Color(0xFF0A4335) : ice,
-      onSecondaryContainer: isDark ? ice : ink,
-      tertiary: mint,
-      onTertiary: isDark ? ink : Colors.white,
-      error: const Color(0xFFB3261E),
-      onError: Colors.white,
-      surface: isDark ? ink : Colors.white,
-      onSurface: isDark ? ice : ink,
-      surfaceContainerHighest: isDark ? const Color(0xFF1A423D) : ice,
-      onSurfaceVariant: isDark ? ice : const Color(0xFF3F544F),
-      outline: isDark ? const Color(0xFF5C7C75) : const Color(0xFF8FAAA3),
-    );
-  }
-
-  static ThemeData _build(Brightness brightness) {
-    final colorScheme = _colors(brightness);
+  static ThemeData _build(Brightness brightness, AppPalette p) {
+    final colorScheme = _colors(brightness, p);
 
     return ThemeData(
       colorScheme: colorScheme,
       useMaterial3: true,
-      scaffoldBackgroundColor: colorScheme.surface,
+      extensions: <ThemeExtension<dynamic>>[p],
+      scaffoldBackgroundColor: p.bg,
+      dividerColor: p.divider,
+      disabledColor: p.textDisabled,
 
-      // TODO(fonts): PRD §9 specifies Poppins for display and the Anek family
-      // for body and all Indian scripts. Neither is bundled yet — Anek Tamil in
-      // particular is what makes Tamil render correctly rather than fall back.
-      // Add them as assets (not a network font loader) before any Tamil
-      // walkthrough, and mind the 25 MB APK budget when subsetting.
+      // TODO(fonts): neither the Latin display face nor Anek / Noto Sans Tamil
+      // is bundled yet — Anek Tamil in particular is what makes Tamil render
+      // correctly rather than fall back. Add them as assets (not a network font
+      // loader) before any Tamil walkthrough, and mind the 25 MB APK budget
+      // when subsetting.
 
       // Applies the 48 dp floor to every Material tap target in the app rather
       // than relying on each screen to remember it.
       materialTapTargetSize: MaterialTapTargetSize.padded,
       visualDensity: VisualDensity.standard,
 
+      // The app bar and the status bar above it are one band of `statusBar`,
+      // so the top of the screen does not split into two colours.
+      appBarTheme: AppBarTheme(
+        backgroundColor: p.statusBar,
+        foregroundColor: p.text,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        systemOverlayStyle: systemOverlay(p, brightness),
+      ),
+      dividerTheme: DividerThemeData(color: p.divider, thickness: 1, space: 1),
+      // Depth is a hairline, not a shadow.
+      cardTheme: CardThemeData(
+        color: p.surface,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        margin: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: BorderSide(color: p.divider),
+        ),
+      ),
+
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
+          backgroundColor: p.primary,
+          foregroundColor: p.onPrimary,
+          disabledBackgroundColor: p.divider,
+          disabledForegroundColor: p.textDisabled,
           minimumSize: const Size(minTapTarget, minTapTarget),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           // Deliberately no maxLines: a primary action must wrap rather than
@@ -84,12 +119,15 @@ abstract final class AppTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
+          foregroundColor: p.primary,
+          side: BorderSide(color: p.divider),
           minimumSize: const Size(minTapTarget, minTapTarget),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
+          foregroundColor: p.primary,
           minimumSize: const Size(minTapTarget, minTapTarget),
         ),
       ),
@@ -98,13 +136,40 @@ abstract final class AppTheme {
           minimumSize: const Size(minTapTarget, minTapTarget),
         ),
       ),
-      listTileTheme: const ListTileThemeData(minVerticalPadding: 12),
-      inputDecorationTheme: const InputDecorationTheme(
-        border: OutlineInputBorder(),
-        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      listTileTheme: ListTileThemeData(
+        minVerticalPadding: 12,
+        iconColor: p.textMuted,
+        textColor: p.text,
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        border: const OutlineInputBorder(),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: p.divider),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: p.primary, width: 2),
+        ),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
       ),
     );
   }
+
+  /// The status bar for a screen drawn in [p]. App bars get it from the theme;
+  /// a screen with no app bar (login, language) wraps itself in an
+  /// `AnnotatedRegion` with this, or the icons can end up dark-on-dark.
+  static SystemUiOverlayStyle systemOverlay(
+    AppPalette p,
+    Brightness brightness,
+  ) => SystemUiOverlayStyle(
+    statusBarColor: p.statusBar,
+    statusBarIconBrightness: brightness == Brightness.light
+        ? Brightness.dark
+        : Brightness.light,
+    statusBarBrightness: brightness,
+  );
 
   /// The pay figure on an offer card — the largest element and the first thing
   /// a worker looks for (PRD §4.2: the decision order is pay, distance, date).
@@ -113,7 +178,7 @@ abstract final class AppTheme {
   static TextStyle payFigure(BuildContext context) =>
       Theme.of(context).textTheme.headlineMedium!.copyWith(
         fontWeight: FontWeight.w700,
-        color: AppTheme.amber,
+        color: AppPalette.of(context).text,
         fontFeatures: const <FontFeature>[
           FontFeature.tabularFigures(),
           FontFeature.liningFigures(),

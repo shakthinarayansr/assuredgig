@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../app/di.dart';
-import '../../core/theme/app_tokens.dart';
+import '../../core/theme/app_palette.dart';
+import '../../core/theme/app_theme.dart';
 import '../../domain/usecases/verify_otp.dart';
 import '../../l10n/app_localizations.dart';
 import 'bloc/login_bloc.dart';
@@ -47,36 +49,49 @@ class LoginScreen extends StatelessWidget {
         builder: (context, state) {
           final bloc = context.read<LoginBloc>();
           final onPhoneStep = state.step == LoginStep.phone;
+          final theme = Theme.of(context);
 
-          return Scaffold(
-            backgroundColor: AppTokens.ground,
-            body: SafeArea(
-              child: Column(
-                children: <Widget>[
-                  const _SlowLineNotice(),
-                  StepHeader(
-                    step: onPhoneStep ? 1 : 2,
-                    totalSteps: _onboardingSteps,
-                    // No way back out of a request in flight: the server is
-                    // already deciding, and a half-abandoned verify is how a
-                    // session ends up bound to the wrong device.
-                    onBack: state.isBusy
-                        ? null
-                        : onPhoneStep
-                        ? null
-                        : () => bloc.add(const LoginEvent.phoneEditRequested()),
-                  ),
-                  Expanded(
-                    child: switch (state) {
-                      _ when state.needsHelp => OtpStuckView(
-                        state: state,
-                        bloc: bloc,
-                      ),
-                      _ when onPhoneStep => PhoneStep(state: state, bloc: bloc),
-                      _ => OtpStep(state: state, bloc: bloc),
-                    },
-                  ),
-                ],
+          // No app bar here, so the status bar is set directly — otherwise it
+          // keeps whatever the previous screen left, which after the dark
+          // language screen is light icons on a light page.
+          return AnnotatedRegion<SystemUiOverlayStyle>(
+            value: AppTheme.systemOverlay(
+              AppPalette.of(context),
+              theme.brightness,
+            ),
+            child: Scaffold(
+              body: SafeArea(
+                child: Column(
+                  children: <Widget>[
+                    const _SlowLineNotice(),
+                    StepHeader(
+                      step: onPhoneStep ? 1 : 2,
+                      totalSteps: _onboardingSteps,
+                      // No way back out of a request in flight: the server is
+                      // already deciding, and a half-abandoned verify is how a
+                      // session ends up bound to the wrong device.
+                      onBack: state.isBusy
+                          ? null
+                          : onPhoneStep
+                          ? null
+                          : () =>
+                                bloc.add(const LoginEvent.phoneEditRequested()),
+                    ),
+                    Expanded(
+                      child: switch (state) {
+                        _ when state.needsHelp => OtpStuckView(
+                          state: state,
+                          bloc: bloc,
+                        ),
+                        _ when onPhoneStep => PhoneStep(
+                          state: state,
+                          bloc: bloc,
+                        ),
+                        _ => OtpStep(state: state, bloc: bloc),
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           );

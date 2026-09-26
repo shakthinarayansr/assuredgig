@@ -280,18 +280,26 @@ flutter pub get && flutter gen-l10n && dart run build_runner build
   The Play data-safety declaration must match actual behaviour — and must be re-checked against
   the SOS decision below, because it changes the answer.
 
-### Design system (PRD §9)
+### Design system
 
-| Token | Hex |
-|---|---|
-| Ink | `#0E2F2B` |
-| Teal | `#0F6E56` |
-| Mint | `#1D9E75` |
-| Amber | `#EF9F27` |
-| Ice | `#CFE0DB` |
+**The AssuredGig app palette (26 Sep 2026) supersedes PRD §9's amber-forward set** — see
+`ai_tools/memory/2026-09-26-app-palette-supersedes-prd-9.md`. Light and dark themes, chosen by the
+Partner in Profile (light · dark · same as phone), persisted and applied without restart.
 
-**AssuredGig is amber-forward** — amber carries pay figures and primary actions; teal recedes to
-structure. Poppins for display; the Anek family for body and all Indian scripts.
+| Token | Light | Dark |
+|---|---|---|
+| primary | `#1976D2` | `#8FAEFF` |
+| text | `#0F2744` | `#E7ECFA` |
+| bg / surface | `#FFFFFF` / `#FFFFFF` | `#0E1631` / `#152044` |
+| danger | `#B3161A` | `#FF9B9B` |
+| sos | `#C62021` | `#FF6B6B` |
+
+Full set in `lib/core/theme/app_palette.dart`. Read colours through `AppPalette.of(context)`, never
+hex literals. Pastels are surfaces, never text. **`sos` red is for SOS and safety escalation
+only** — errors use `danger`. Every text/background pair is ≥ 4.5:1 (`test/theme_test.dart`). The
+shift card is the same in both themes: white body, blue band.
+
+Type is unchanged and still unbundled: a Latin display face, and Anek / Noto Sans Tamil for Tamil.
 
 ### Performance budgets (TRD §13)
 

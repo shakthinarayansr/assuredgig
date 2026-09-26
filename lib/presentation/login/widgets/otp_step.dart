@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../../../core/theme/app_palette.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../l10n/app_localizations.dart';
 import '../bloc/login_bloc.dart';
@@ -48,6 +49,7 @@ class _OtpStepState extends State<OtpStep> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppL10n.of(context);
+    final p = AppPalette.of(context);
     final state = widget.state;
     final bloc = widget.bloc;
     final busy = state.isBusy;
@@ -74,7 +76,7 @@ class _OtpStepState extends State<OtpStep> {
                   style: AppTokens.question.copyWith(
                     // Recedes while the server is deciding, so the spinner is
                     // the live thing on the screen.
-                    color: busy ? AppTokens.inkFaint : AppTokens.ink,
+                    color: busy ? p.textDisabled : p.text,
                   ),
                 ),
                 if (!busy) ...<Widget>[
@@ -84,7 +86,7 @@ class _OtpStepState extends State<OtpStep> {
                       children: <InlineSpan>[
                         TextSpan(
                           text: l10n.otpSentTo(_pretty(state.phone)),
-                          style: AppTokens.body,
+                          style: AppTokens.body.copyWith(color: p.textMuted),
                         ),
                       ],
                     ),
@@ -96,22 +98,20 @@ class _OtpStepState extends State<OtpStep> {
                   const SizedBox(height: 26),
                   Row(
                     children: <Widget>[
-                      const SizedBox(
+                      SizedBox(
                         width: 22,
                         height: 22,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          color: AppTokens.accent,
-                          backgroundColor: AppTokens.hairline,
+                          color: p.primary,
+                          backgroundColor: p.divider,
                         ),
                       ),
                       const SizedBox(width: 12),
                       Flexible(
                         child: Text(
                           l10n.otpChecking,
-                          style: AppTokens.rowLabel.copyWith(
-                            color: const Color(0xFF3D4249),
-                          ),
+                          style: AppTokens.rowLabel.copyWith(color: p.text),
                         ),
                       ),
                     ],
@@ -121,17 +121,13 @@ class _OtpStepState extends State<OtpStep> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      const Icon(
-                        Icons.error_outline,
-                        size: 16,
-                        color: AppTokens.errorInk,
-                      ),
+                      Icon(Icons.error_outline, size: 16, color: p.danger),
                       const SizedBox(width: 7),
                       Expanded(
                         child: Text(
                           failure.message(l10n),
                           style: AppTokens.hint.copyWith(
-                            color: AppTokens.errorInk,
+                            color: p.danger,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -143,18 +139,14 @@ class _OtpStepState extends State<OtpStep> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      const Icon(
-                        Icons.timer_outlined,
-                        size: 16,
-                        color: AppTokens.inkFaint,
-                      ),
+                      Icon(Icons.timer_outlined, size: 16, color: p.textMuted),
                       const SizedBox(width: 7),
                       Expanded(
                         child: Text(
                           canResend
                               ? l10n.otpResendNow
                               : l10n.otpResendIn(secondsLeft),
-                          style: AppTokens.hint,
+                          style: AppTokens.hint.copyWith(color: p.textMuted),
                         ),
                       ),
                     ],
@@ -168,7 +160,7 @@ class _OtpStepState extends State<OtpStep> {
                       onPressed: () =>
                           bloc.add(const LoginEvent.resendRequested()),
                       style: TextButton.styleFrom(
-                        foregroundColor: AppTokens.accent,
+                        foregroundColor: p.primary,
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         minimumSize: const Size(0, AppTokens.targetMin),
                       ),
@@ -230,6 +222,7 @@ class _OtpBoxes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final busy = state.isBusy;
+    final p = AppPalette.of(context);
 
     return Opacity(
       opacity: busy ? 0.5 : 1,
@@ -243,25 +236,23 @@ class _OtpBoxes extends StatelessWidget {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: busy
-                      ? AppTokens.sunken
-                      : (i < state.code.length
-                            ? AppTokens.surface
-                            : const Color(0xFFFCFCFD)),
+                      ? p.sky
+                      : (i < state.code.length ? p.surface : p.surfaceAlt),
                   borderRadius: BorderRadius.circular(AppTokens.radiusField),
                   border: Border.all(
                     color: switch ((hasError, busy)) {
-                      (true, _) => AppTokens.error,
-                      (_, true) => AppTokens.hairlineStrong,
+                      (true, _) => p.danger,
+                      (_, true) => p.divider,
                       // The next box to be filled carries the accent — the
                       // caret, without a caret.
-                      _ when i == state.code.length => AppTokens.accent,
-                      _ => AppTokens.hairline,
+                      _ when i == state.code.length => p.primary,
+                      _ => p.divider,
                     },
                   ),
                 ),
                 child: Text(
                   i < state.code.length ? state.code[i] : '',
-                  style: AppTokens.otpDigit,
+                  style: AppTokens.otpDigit.copyWith(color: p.text),
                 ),
               ),
             ),

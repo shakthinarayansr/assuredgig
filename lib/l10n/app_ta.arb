@@ -40,5 +40,13 @@
   "errorAccountUnavailable": "இந்த எண்ணை இப்போது பயன்படுத்த முடியாது.",
   "errorSessionExpired": "மீண்டும் உள்நுழையவும்.",
   "errorUnknown": "ஏதோ தவறு. மீண்டும் முயற்சிக்கவும்.",
-  "keypadDelete": "அழி"
+  "keypadDelete": "அழி",
+  "homeOpenProfile": "சுயவிவரம்",
+  "profileTitle": "சுயவிவரம்",
+  "profileAppearanceHeading": "தோற்றம்",
+  "profileAppearanceHint": "இரவில் இருண்ட தோற்றம் கண்களுக்கு எளிதானது.",
+  "themeSystem": "தானியங்கி",
+  "themeLight": "வெளிர்",
+  "themeDark": "இருண்ட",
+  "profileLanguageHeading": "மொழி"
 }

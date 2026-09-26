@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/theme/app_palette.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../domain/entities/auth_failure.dart';
 import '../../../l10n/app_localizations.dart';
@@ -23,6 +24,7 @@ class PhoneStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppL10n.of(context);
+    final p = AppPalette.of(context);
     final failure = state.failure;
 
     // The hint carries one of three things, in priority order: the server's
@@ -35,17 +37,17 @@ class PhoneStep extends StatelessWidget {
       (final AuthFailure f, _) => (
         f.message(l10n),
         Icons.error_outline,
-        AppTokens.errorInk,
+        p.danger,
       ),
       (_, 0) => (
         l10n.phoneHintEmpty(state.phoneLength),
         Icons.info_outline,
-        AppTokens.inkFaint,
+        p.textMuted,
       ),
       (_, final int typed) => (
         l10n.phoneHintProgress(typed, state.phoneLength),
         state.isPhoneValid ? Icons.check_circle_outline : Icons.info_outline,
-        AppTokens.inkFaint,
+        p.textMuted,
       ),
     };
 
@@ -58,13 +60,16 @@ class PhoneStep extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Text(l10n.phoneTitle, style: AppTokens.question),
+                Text(
+                  l10n.phoneTitle,
+                  style: AppTokens.question.copyWith(color: p.text),
+                ),
                 const SizedBox(height: 8),
                 // The digit count is the server's, not ours. The canvas says
                 // "4-digit"; the live API rejects anything under 6.
                 Text(
                   l10n.phoneSubtitle(state.codeLength),
-                  style: AppTokens.body,
+                  style: AppTokens.body.copyWith(color: p.textMuted),
                 ),
                 const SizedBox(height: 26),
                 _PhoneField(state: state, hasError: failure != null),
@@ -133,6 +138,7 @@ class _PhoneField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final p = AppPalette.of(context);
     final digits = state.phone;
     // Grouped 5 + 5, the way the number is read aloud.
     final display = digits.length > 5
@@ -143,10 +149,7 @@ class _PhoneField extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(2, 0, 2, 14),
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(
-            color: hasError ? AppTokens.error : AppTokens.accent,
-            width: 2,
-          ),
+          bottom: BorderSide(color: hasError ? p.danger : p.primary, width: 2),
         ),
       ),
       child: Row(
@@ -156,13 +159,18 @@ class _PhoneField extends StatelessWidget {
           // way out, where E.164 belongs.
           Text(
             '+91', // i18n-ignore: a dial code is not translated text.
-            style: AppTokens.digits.copyWith(color: AppTokens.inkFaint),
+            style: AppTokens.digits.copyWith(color: p.textMuted),
           ),
           const SizedBox(width: 12),
-          Flexible(child: Text(display, style: AppTokens.digits)),
+          Flexible(
+            child: Text(
+              display,
+              style: AppTokens.digits.copyWith(color: p.text),
+            ),
+          ),
           if (!state.isPhoneValid) ...<Widget>[
             const SizedBox(width: 2),
-            Container(width: 2, height: 30, color: AppTokens.accent),
+            Container(width: 2, height: 30, color: p.primary),
           ],
         ],
       ),

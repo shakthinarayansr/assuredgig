@@ -217,5 +217,37 @@
   "keypadDelete": "Delete",
   "@keypadDelete": {
     "description": "Accessibility label for the backspace key on the number pad."
+  },
+  "homeOpenProfile": "Profile",
+  "@homeOpenProfile": {
+    "description": "Placeholder-home button that opens the profile screen. Removed once the tab bar lands."
+  },
+  "profileTitle": "Profile",
+  "@profileTitle": {
+    "description": "App bar title of the profile screen (S-21)."
+  },
+  "profileAppearanceHeading": "Appearance",
+  "@profileAppearanceHeading": {
+    "description": "Section heading for choosing a light or dark look."
+  },
+  "profileAppearanceHint": "Dark is easier on the eyes at night.",
+  "@profileAppearanceHint": {
+    "description": "One line under the appearance heading, saying why someone might pick dark."
+  },
+  "themeSystem": "Same as phone",
+  "@themeSystem": {
+    "description": "Theme option that follows the phone's own light/dark setting."
+  },
+  "themeLight": "Light",
+  "@themeLight": {
+    "description": "Theme option: light background."
+  },
+  "themeDark": "Dark",
+  "@themeDark": {
+    "description": "Theme option: dark background."
+  },
+  "profileLanguageHeading": "Language",
+  "@profileLanguageHeading": {
+    "description": "Section heading for changing the app language (S-29, AUTH-03)."
   }
 }

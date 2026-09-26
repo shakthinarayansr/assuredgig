@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/theme/app_palette.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../l10n/app_localizations.dart';
 
@@ -24,6 +25,7 @@ class NumberPad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppL10n.of(context);
+    final p = AppPalette.of(context);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 4, 12, 14),
@@ -49,16 +51,19 @@ class NumberPad extends StatelessWidget {
                         'del' => _Key(
                           onTap: onBackspace,
                           semanticLabel: l10n.keypadDelete,
-                          child: const Icon(
+                          child: Icon(
                             Icons.backspace_outlined,
                             size: 24,
-                            color: AppTokens.inkMuted,
+                            color: p.textMuted,
                           ),
                         ),
                         _ => _Key(
                           onTap: () => onDigit(cell),
                           semanticLabel: cell,
-                          child: Text(cell, style: AppTokens.key),
+                          child: Text(
+                            cell,
+                            style: AppTokens.key.copyWith(color: p.text),
+                          ),
                         ),
                       },
                     ),
