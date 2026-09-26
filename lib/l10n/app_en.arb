@@ -20,14 +20,6 @@
   "@commonCancel": {
     "description": "Generic cancel action in a dialog or sheet."
   },
-  "homePlaceholderTitle": "Foundation ready",
-  "@homePlaceholderTitle": {
-    "description": "Placeholder screen title. Removed once real screens land in a later phase."
-  },
-  "homePlaceholderBody": "Screens arrive in a later phase. This build exists to prove the foundation compiles, routes, and switches language.",
-  "@homePlaceholderBody": {
-    "description": "Placeholder screen body. Removed once real screens land in a later phase."
-  },
   "languageChangeableLater": "Changeable later in settings",
   "@languageChangeableLater": {
     "description": "Reassurance under the two language choices on first open, so the choice does not feel final."
@@ -218,10 +210,6 @@
   "@keypadDelete": {
     "description": "Accessibility label for the backspace key on the number pad."
   },
-  "homeOpenProfile": "Profile",
-  "@homeOpenProfile": {
-    "description": "Placeholder-home button that opens the profile screen. Removed once the tab bar lands."
-  },
   "profileTitle": "Profile",
   "@profileTitle": {
     "description": "App bar title of the profile screen (S-21)."
@@ -249,5 +237,73 @@
   "profileLanguageHeading": "Language",
   "@profileLanguageHeading": {
     "description": "Section heading for changing the app language (S-29, AUTH-03)."
+  },
+  "navShifts": "Shifts",
+  "@navShifts": {
+    "description": "Bottom tab: offers, bookings and the active shift. The tab the app opens on."
+  },
+  "navHistory": "History",
+  "@navHistory": {
+    "description": "Bottom tab: past shifts and money earned."
+  },
+  "headerOpenProfile": "Open your profile",
+  "@headerOpenProfile": {
+    "description": "Screen-reader label for the name and photo in the app bar, which open the profile."
+  },
+  "headerNameFallback": "Your profile",
+  "@headerNameFallback": {
+    "description": "Shown beside the avatar in the app bar when the Partner's name is not known yet."
+  },
+  "shiftsEmptyTitle": "No shift offers yet",
+  "@shiftsEmptyTitle": {
+    "description": "Empty Shifts tab heading (S-11)."
+  },
+  "shiftsEmptyBody": "When a shift near you matches your work, it appears here and we send you a notification.",
+  "@shiftsEmptyBody": {
+    "description": "Empty Shifts tab body. Says what to expect, so an empty list does not read as broken."
+  },
+  "historyEmptyTitle": "No past shifts yet",
+  "@historyEmptyTitle": {
+    "description": "Empty History tab heading (S-26)."
+  },
+  "historyEmptyBody": "Shifts you finish, and what you earned for each, will show here.",
+  "@historyEmptyBody": {
+    "description": "Empty History tab body."
+  },
+  "historyEarnedLabel": "Earned so far",
+  "@historyEarnedLabel": {
+    "description": "Label above the total money earned from completed shifts."
+  },
+  "historyPastShiftsHeading": "Past shifts",
+  "@historyPastShiftsHeading": {
+    "description": "Heading above the list of past shifts."
+  },
+  "historyOutcomeNoShow": "Marked absent",
+  "@historyOutcomeNoShow": {
+    "description": "Shown on a past shift ops recorded as a no-show (HIST-04). Neutral, not accusing."
+  },
+  "historyShiftsCompleted": "{count, plural, =1{1 shift completed} other{{count} shifts completed}}",
+  "@historyShiftsCompleted": {
+    "description": "Under the earned total: how many shifts it came from.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "historyShiftTime": "{start} – {end} · {hours} hrs",
+  "@historyShiftTime": {
+    "description": "A past shift's start and end time, then how many hours it ran. Times and hours arrive already formatted for the locale.",
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      },
+      "hours": {
+        "type": "String"
+      }
+    }
   }
 }
