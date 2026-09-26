@@ -103,6 +103,13 @@ dev_dependencies:
   injectable_generator: ^3.1.1
   drift_dev: ^2.34.5
   mocktail: ^1.0.5
+  # Launcher icon + native launch screen, generated into android/ from
+  # assets/branding/. Dev-only: they write resources, nothing ships at
+  # runtime. Config lives in flutter_launcher_icons.yaml and
+  # flutter_native_splash.yaml; regenerate with
+  #   dart run flutter_launcher_icons && dart run flutter_native_splash:create
+  flutter_launcher_icons: ^0.14.4
+  flutter_native_splash: ^2.4.8
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

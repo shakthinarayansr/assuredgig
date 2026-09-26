@@ -1,0 +1,15 @@
+# Launcher icon. Regenerate: dart run flutter_launcher_icons
+#
+# The icon is the calendar mark alone. The wordmark is unreadable at 48 dp and
+# the launcher already prints the app name underneath.
+flutter_launcher_icons:
+  android: "ic_launcher"
+  ios: false
+  image_path: "assets/branding/icon_legacy.png"
+  min_sdk_android: 26
+  # minSdk 26 means every device supports adaptive icons; the legacy PNGs
+  # remain only for launchers that ignore them.
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/branding/icon_foreground.png"
+  # Foreground is pre-padded so the mark sits inside the 66/108 safe zone.
+  adaptive_icon_foreground_inset: 0
